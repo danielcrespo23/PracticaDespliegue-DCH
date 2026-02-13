@@ -11,19 +11,21 @@ import java.util.List;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
-    
+
     List<Book> findByAuthor(String author);
-    
+
+    List<Book> findByTitleAndAuthor(String title, String author);
+
     List<Book> findByGenre(String genre);
-    
+
     List<Book> findByYear(Integer year);
-    
+
     List<Book> findByTitleContainingIgnoreCase(String title);
-    
+
     @Query("SELECT b FROM Book b WHERE b.year BETWEEN :startYear AND :endYear")
-    List<Book> findBooksByYearRange(@Param("startYear") Integer startYear, 
-                                     @Param("endYear") Integer endYear);
-    
+    List<Book> findBooksByYearRange(@Param("startYear") Integer startYear,
+                                    @Param("endYear") Integer endYear);
+
     @Query("SELECT b FROM Book b WHERE LOWER(b.author) LIKE LOWER(CONCAT('%', :author, '%'))")
     List<Book> findBooksByAuthorContainingIgnoreCase(@Param("author") String author);
 }
